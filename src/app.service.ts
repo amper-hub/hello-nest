@@ -1,12 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { HelloResponseDto } from './dto/hello.dto';
 
 @Injectable()
 export class AppService {
-  getHello(): string {
-    return 'Hello junnel!';
+  hello(): string {
+    return 'Hello World';
   }
 
-  validateUser(username: string, password: string): boolean {
-    return username === 'admin' && password === '1234';
+  helloName(name: string): HelloResponseDto {
+    const cleaned = name.trim();
+    return {
+      message: `Hello, ${cleaned}!`,
+      at: new Date().toISOString(),
+    };
   }
 }

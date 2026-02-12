@@ -1,16 +1,18 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { AppService } from './app.service';
+import type { HelloResponseDto } from './dto/hello.dto';
 
 @Controller()
 export class AppController {
+  constructor(private readonly appService: AppService) {}
 
-  @Post('login')
-  login(@Body() body: any) {
-    const { username, password } = body;
+  @Get()
+  hello(): string {
+    return this.appService.hello();
+  }
 
-    if (username === 'admin' && password === '1234') {
-      return 'Login successful ✅';
-    }
-
-    return 'Invalid credentials ❌';
+  @Get('hello/:name')
+  helloName(@Param('name') name: string): HelloResponseDto {
+    return this.appService.helloName(name);
   }
 }
