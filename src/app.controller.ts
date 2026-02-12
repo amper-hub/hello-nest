@@ -1,18 +1,18 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Param, BadRequestException } from '@nestjs/common';
 import { AppService } from './app.service';
-import type { HelloResponseDto } from './dto/hello.dto';
 
 @Controller()
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  @Get()
-  hello(): string {
-    return this.appService.hello();
-  }
+  // Existing endpoints...
 
-  @Get('hello/:name')
-  helloName(@Param('name') name: string): HelloResponseDto {
-    return this.appService.helloName(name);
+  @Get('square/:n')
+  square(@Param('n') n: string) {
+    const value = Number(n);
+    if (!Number.isFinite(value)) {
+      throw new BadRequestException('n must be a number');
+    }
+    return { n: value, square: value * value };
   }
 }
